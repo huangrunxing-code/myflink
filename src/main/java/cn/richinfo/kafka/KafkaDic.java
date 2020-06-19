@@ -6,11 +6,13 @@ import java.time.Duration;
 
 public class KafkaDic {
     @FiledAnnotations(describe = "kafka地址")
-    public static final String Kafka_ADDRESS_COLLECTION = "127.0.0.1:9092";
+    public static final String Kafka_ADDRESS_COLLECTION = "rhel075:9092,rhel076:9092,rhel079:9092";
     @FiledAnnotations(describe = "消费者连接的topic")
-    public static final String CONSUMER_TOPIC = "topicDemo";
+    public static final String CONSUMER_TOPIC = "hrxtopic";
     @FiledAnnotations(describe = "生产者连接的topic")
-    public static final String PRODUCER_TOPIC = "topicDemo";
+    public static final String PRODUCER_TOPIC = "hrxtopic";
+    @FiledAnnotations(describe = "Flink生产者连接的topic")
+    public static final String FLINK_PRODUCER_TOPIC = "flink_hrxtopic";
     @FiledAnnotations(describe = "groupId，可以分开配置")
     public static final String CONSUMER_GROUP_ID = "1";
     @FiledAnnotations(describe = "是否自动提交（消费者）")
