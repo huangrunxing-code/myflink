@@ -18,7 +18,7 @@ public class FlinkConsumerKafkaToKafka {
         //实例source object
         Properties props = new Properties();
         props.setProperty("bootstrap.servers",KafkaDic.Kafka_ADDRESS_COLLECTION);
-        props.setProperty("zookeeper.connect","rhel072:2181");
+        props.setProperty("zookeeper.connect",KafkaDic.Zookeeper_List);
         props.setProperty("group.id",KafkaDic.CONSUMER_GROUP_ID);
         FlinkKafkaConsumer010<String> ksource = new FlinkKafkaConsumer010<>(KafkaDic.CONSUMER_TOPIC, new SimpleStringSchema(), props);
         DataStreamSource<String> sdatastream = env.addSource(ksource);

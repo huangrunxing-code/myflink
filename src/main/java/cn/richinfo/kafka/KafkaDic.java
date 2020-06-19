@@ -7,6 +7,8 @@ import java.time.Duration;
 public class KafkaDic {
     @FiledAnnotations(describe = "kafka地址")
     public static final String Kafka_ADDRESS_COLLECTION = "rhel075:9092,rhel076:9092,rhel079:9092";
+    @FiledAnnotations(describe = "zookeeper列表")
+    public static final String Zookeeper_List="rhel072:2181";
     @FiledAnnotations(describe = "消费者连接的topic")
     public static final String CONSUMER_TOPIC = "hrxtopic";
     @FiledAnnotations(describe = "生产者连接的topic")
