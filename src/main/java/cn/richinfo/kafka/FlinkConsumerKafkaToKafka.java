@@ -2,6 +2,7 @@ package cn.richinfo.kafka;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -15,6 +16,7 @@ public class FlinkConsumerKafkaToKafka {
         //获取运行环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(5000);
+        env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
         //实例source object
         Properties props = new Properties();
         props.setProperty("bootstrap.servers",KafkaDic.Kafka_ADDRESS_COLLECTION);
