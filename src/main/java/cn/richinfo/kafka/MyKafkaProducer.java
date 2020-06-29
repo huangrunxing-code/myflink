@@ -18,7 +18,10 @@ public class MyKafkaProducer {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         KafkaProducer<String,String> kafkaProducer = new KafkaProducer<>(props);
         for(int i=0;i<10000;i++){
-            kafkaProducer.send(new ProducerRecord<String,String>(KafkaDic.PRODUCER_TOPIC,Integer.toString(i),Integer.toString(i)));
+            String messageContext=String.format("姓名%s,广东深圳%s,身高%s,体重%s,电话%s",Integer.toString(i),Integer.toString(i),Integer.toString(i),Integer.toString(i),Integer.toString(i));
+
+            kafkaProducer.send(new ProducerRecord<String,String>(KafkaDic.PRODUCER_TOPIC,Integer.toString(i),messageContext));
+            System.out.println("sented:"+messageContext);
             try {
                 Thread.sleep(200);
             } catch (InterruptedException e) {

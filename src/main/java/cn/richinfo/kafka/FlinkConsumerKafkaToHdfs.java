@@ -1,19 +1,24 @@
 package cn.richinfo.kafka;
 
 import org.apache.flink.api.common.functions.MapFunction;
+import org.apache.flink.api.common.serialization.SimpleStringEncoder;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
-import org.apache.flink.streaming.api.TimeCharacteristic;
+import org.apache.flink.core.fs.Path;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.functions.sink.filesystem.StreamingFileSink;
+import org.apache.flink.streaming.api.functions.sink.filesystem.rollingpolicies.DefaultRollingPolicy;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer010;
+import org.apache.log4j.Logger;
 
-import javax.sound.midi.Soundbank;
 import java.util.Properties;
+import java.util.concurrent.TimeUnit;
 
-public class FlinkConsumerKafkaToKafka {
-    private static String HDFS_PATH="hdfs://nameservice1/tmp";
+public class FlinkConsumerKafkaToHdfs {
+
+    private static Logger logger =Logger.getLogger(FlinkConsumerKafkaToHdfs.class);
+    private static String HDFS_PATH="hdfs://nameservice1/flink/tmp";
     private static String SOURCE_SPLIT_STR=",";
     private static String TARGIT_SPLIT_STR="|";
     public static void main(String[] args) {
@@ -45,19 +50,24 @@ public class FlinkConsumerKafkaToKafka {
                 return tmpstr.toString();
             }
         });
-        //sink to other
-        FlinkKafkaProducer010<String> ksink = new FlinkKafkaProducer010<String>(
-                KafkaDic.Kafka_ADDRESS_COLLECTION,
-                KafkaDic.FLINK_PRODUCER_TOPIC,
-                new SimpleStringSchema()
-        );
-        map.addSink(ksink);
+
+        StreamingFileSink<String> hdfssink = StreamingFileSink.forRowFormat(new Path(HDFS_PATH), new SimpleStringEncoder<String>("UTF-8")).withRollingPolicy(
+                DefaultRollingPolicy.builder()
+                        .withRolloverInterval(TimeUnit.MINUTES.toMillis(2))
+                        .withInactivityInterval(TimeUnit.MINUTES.toMillis(2))
+                        .withMaxPartSize(1024 * 1024 * 1)
+                        .build())
+                .build();
+
+
+         map.addSink(hdfssink);
 
         //执行
         try {
-            env.execute("FlinkConsumerKafkaToKafka");
+            env.execute("FlinkConsumerKafkaToHdfs");
         } catch (Exception e) {
             //ignore
+            System.out.println(e);
         }
     }
 }

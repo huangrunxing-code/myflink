@@ -2,17 +2,15 @@ package cn.richinfo.kafka;
 
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
-import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer010;
 
-import javax.sound.midi.Soundbank;
 import java.util.Properties;
 
-public class FlinkConsumerKafkaToKafka {
+public class FlinkConsumerKafkaToEs {
     private static String HDFS_PATH="hdfs://nameservice1/tmp";
     private static String SOURCE_SPLIT_STR=",";
     private static String TARGIT_SPLIT_STR="|";
