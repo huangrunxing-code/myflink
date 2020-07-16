@@ -1,8 +1,9 @@
 package cn.richinfo.kafka;
 
+import org.apache.flink.api.java.functions.KeySelector;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
-import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
+import org.apache.flink.streaming.api.datastream.KeyedStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor;
 
@@ -31,6 +32,15 @@ public class TestIntervalJoin {
                 return element.time;
             }
         });
+        KeyedStream<Transcript, String> transcriptKeyrdStream = tds.keyBy((Transcript t)->{return t.id;});
+       /* KeyedStream<Transcript, String> transcriptKeyrdStream = tds.keyBy(new KeySelector<Transcript, String>() {
+            @Override
+            public String getKey(Transcript transcript) throws Exception {
+                return transcript.id;
+            }
+        });*/
+
+        KeyedStream<Student, String> studentStringKeyedStream = sds.keyBy((Student::getId));
         sds.print();
         ev.execute("sd");
     }

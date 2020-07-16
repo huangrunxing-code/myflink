@@ -15,7 +15,7 @@ public class ValueStateTest extends BaseStreaming{
     public static void main(String[] args) throws Exception {
         DataStreamSource<String> ds = env.fromElements("1,12 2,23 3,435 1,657 2,34 3,23 1,1 2,34 3,56 1,7 2,43" +
                 " 3,3 1,2 2,354 3,56  1,67 2,34 3,2");
-        KeyedStream<Tuple2<Integer, Integer>, Tuple> tuple2TupleKeyedStream = ds.flatMap((String s, Collector<Tuple2<Integer, Integer>> out) -> {
+        KeyedStream<Tuple2<Integer, Integer>, Tuple> dskeyedstream = ds.flatMap((String s, Collector<Tuple2<Integer, Integer>> out) -> {
             String[] split = s.split("\\s+");
             for (String t : split) {
                 String[] split1 = t.split(",");
@@ -27,8 +27,8 @@ public class ValueStateTest extends BaseStreaming{
                 return super.getTypeInfo();
             }
         }).keyBy(0);
-        tuple2TupleKeyedStream.flatMap(new RichFlatMapFunction<Tuple2<Integer, Integer>, Object>() {
-            ValueState<Long> valueState=
+        dskeyedstream.flatMap(new RichFlatMapFunction<Tuple2<Integer, Integer>, Object>() {
+            private ValueState<Long> valueState;
             @Override
             public void open(Configuration parameters) throws Exception {
 
@@ -39,27 +39,9 @@ public class ValueStateTest extends BaseStreaming{
             }
         });
         env.execute("");
-
-
     }
 
     @Override
     public  void exe() {
-        DataStreamSource<String> ds = env.fromElements("1,12 2,23 3,435 1,657 2,34 3,23 1,1 2,34 3,56 1,7 2,43" +
-                " 3,3 1,2 2,354 3,56  1,67 2,34 3,2");
-        ds.flatMap((String s,Collector<Tuple2<Integer,Integer>> out)->{
-            String[] split = s.split("\\s");
-            for(String t : split){
-                String[] split1 = t.split(",");
-                out.collect(new Tuple2<Integer,Integer>(Integer.parseInt(split1[0]),Integer.parseInt(split1[1])));
-            }
-        }).print();
-       /* ds.flatMap(new RichFlatMapFunction<String, Object>() {
-            private ValueState<Long> MAX_VALUE;
-            @Override
-            public void flatMap(String value, Collector<Object> out) throws Exception {
-
-            }
-        });*/
     };
 }
