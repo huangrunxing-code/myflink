@@ -62,7 +62,7 @@ public class EnvntTimeAndWaterMark {
                 return new Tuple2<String,Long>(split[0],Long.parseLong(split[1])) ;
             }
         }).keyBy(0)
-          .window(TumblingEventTimeWindows.of(Time.seconds(5)))
+          .timeWindow(Time.seconds(5))
            .minBy(1)
            .print();
         env.execute("watermark");
