@@ -1,6 +1,6 @@
 package cn.richinfo.streaming;
 
-import org.apache.flink.api.common.functions.RichFlatMapFunction;
+import org.apache.flink.api.common.functions.RichFlatMapFunction; 
 import org.apache.flink.api.java.tuple.Tuple2;
 import org.apache.flink.runtime.state.FunctionInitializationContext;
 import org.apache.flink.runtime.state.FunctionSnapshotContext;
@@ -27,6 +27,7 @@ import java.util.List;
 public class TestListValueFunction extends RichFlatMapFunction<Long, Tuple2<Integer,String>> implements CheckpointedFunction {
     //定义一个托管状态 家伙是哪个teansient 不要让他序列化到磁盘中
     private transient ListValue<Long> checkpointList;
+
     //定义一个原始状态
     private List<Long> originList;
 
