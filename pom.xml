@@ -40,6 +40,12 @@
             <artifactId>flink-connector-filesystem_2.11</artifactId>
             <version>${flink-version}</version>
         </dependency>
+        <!--用来生成假数据-->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
     </dependencies>
 
     <build>
