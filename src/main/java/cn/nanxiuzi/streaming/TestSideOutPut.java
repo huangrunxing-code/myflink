@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 主要学习旁路分流器的功能,适用于分流场景
  * 官方地址https://ci.apache.org/projects/flink/flink-docs-release-1.11/dev/stream/side_output.html
- * 一般分流有三种
+ * 一般分流有三   种
  * Filter：分一次流就需要遍历一次原始流，太浪费时间和资源
  * Split：不能进行二次分流
  * SideOutPut：官方最为推荐的分流方法，最新提供的可以进行多次分流，无需担心爆出异常
