@@ -20,7 +20,7 @@ import java.util.List;
  * 一般分流有三种
  * Filter：分一次流就需要遍历一次原始流，太浪费时间和资源
  * Split：不能进行二次分流
- * SideOutPut：
+ * SideOutPut：官方最为推荐的分流方法，最新提供的可以进行多次分流，无需担心爆出异常
  */
 public class TestSideOutPut {
     public static void main(String[] args) throws Exception {
